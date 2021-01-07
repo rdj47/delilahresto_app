@@ -1,0 +1,1252 @@
+swagger: "2.0"
+info:
+  description: "This is a sample server Delilah Restó app."
+  version: "1.0.0"
+  title: "Delilah Restó"
+  termsOfService: "http://delilahresto.io/terms/"
+  contact:
+    email: "rdj47@hotmail.com"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+host: "localhost:4000"
+basePath: "/"
+tags:
+- name: "user"
+  description: "Operations about Delilah Restó users"
+- name: "item"
+  description: "Everything about Delilah Restó menu items"
+- name: "favorites"
+  description: "Everything about Delilah Restó favorites items"
+- name: "order"
+  description: "Everything about Delilah Restó orders"
+- name: "admin"
+  description: "Everything about Delilah Restó order management"
+- name: "store"
+  description: "Access to Petstore orders"
+
+schemes:
+- "http"
+paths:
+
+  /signup:
+    post:
+      tags:
+      - "user"
+      summary: "User signup Delilah Restó"
+      description: ""
+      operationId: "signup"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "User object that needs to Delilah Restó app."
+        required: true
+        schema:
+          $ref: "#/definitions/SignUpRequest"
+      responses:
+        "200":
+          description: "Successful operation."
+          schema:
+              $ref: "#/definitions/SignUpResponse"
+        "400":
+          description: "Unsuccessful operation."
+          schema:
+              $ref: "#/definitions/Error40XResponse"
+        "500":
+          description: "Unsuccessful operation due to internal server error."
+          schema:
+              $ref: "#/definitions/Error500Response"
+      security:
+      - petstore_auth:
+        - "write:pets"
+        - "read:pets"
+  /login:
+    post:
+      tags:
+      - "user"
+      summary: "User login Delilah Restó"
+      description: ""
+      operationId: "login"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Credentials that need to be sent to login."
+        required: true
+        schema:
+          $ref: "#/definitions/LoginRequest"
+      responses:
+        "200":
+          description: "Successful operation."
+          schema:
+              $ref: "#/definitions/LoginResponse"
+        "400":
+          description: "Unsuccessful operation."
+          schema:
+              $ref: "#/definitions/Error40XResponse"
+        "500":
+          description: "Unsuccessful operation due to internal server."
+          schema:
+              $ref: "#/definitions/Error500Response"
+      security:
+      - petstore_auth:
+        - "write:pets"
+        - "read:pets"
+  /profile:
+    get:
+      tags:
+      - "user"
+      summary: "Query user information"
+      description: "Query item information based on itemId. If itemId is not included in the request, all items information will be queried."
+      operationId: "profile"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "Authorization"
+        in: "header"
+        description: "JWT"
+        required: true
+        type: "string"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/ProfileResponse"
+        "400":
+          description: "Unsuccessful operation."
+          schema:
+              $ref: "#/definitions/Error40XResponse"
+        "401":
+          description: "Unsuccessful operation due to invalid JWT."
+          schema:
+              $ref: "#/definitions/Error401Response"
+        "403":
+          description: "Unsuccessful operation due to user privileges."
+          schema:
+              $ref: "#/definitions/Error40XResponse"
+        "500":
+          description: "Unsuccessful operation due to internal server error."
+          schema:
+              $ref: "#/definitions/Error500Response"
+      security:
+      - petstore_auth:
+        - "write:pets"
+        - "read:pets"
+  /item:
+    post:
+      tags:
+      - "item"
+      summary: "Add a new item to the Delilah Restó menu"
+      description: ""
+      operationId: "addItem"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "header"
+        name: "Authorization"
+        description: "JWT that includes admin username."
+        required: true
+        type: "string"
+      - in: "body"
+        name: "body"
+        description: "Item object that needs to be added to the resto."
+        required: true
+        schema:
+          $ref: "#/definitions/AddItemRequest"
+      responses:
+        "200":
+          description: "Successful operation."
+          schema:
+              $ref: "#/definitions/CItemResponse"
+        "400":
+          description: "Unsuccessful operation."
+          schema:
+              $ref: "#/definitions/Error40XResponse"
+        "401":
+          description: "Unsuccessful operation due to invalid JWT."
+          schema:
+              $ref: "#/definitions/Error401Response"
+        "403":
+          description: "Unsuccessful operation due to user privileges."
+          schema:
+              $ref: "#/definitions/Error40XResponse"
+        "500":
+          description: "Unsuccessful operation due to internal server error."
+          schema:
+              $ref: "#/definitions/Error500Response"
+      security:
+      - petstore_auth:
+        - "write:pets"
+        - "read:pets"
+    get:
+      tags:
+      - "item"
+      summary: "Query Delilah Restó menu's items information"
+      description: "If query parameter itemId is sent, only information regarding that itemId will be returned."
+      operationId: "queryItems"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "Authorization"
+        in: "header"
+        description: "JWT"
+        required: true
+        type: "string"
+      - name: "itemId"
+        in: "query"
+        description: "ID of item to return"
+        required: false
+        type: "integer"
+        format: "int64"
+      responses:
+        "200":
+          description: "Successful operation."
+          schema:
+              $ref: "#/definitions/QueryItemsResponse"
+        "400":
+          description: "Unsuccessful operation."
+          schema:
+              $ref: "#/definitions/Error40XResponse"
+        "401":
+          description: "Unsuccessful operation due to invalid JWT."
+          schema:
+              $ref: "#/definitions/Error401Response"
+        "403":
+          description: "Unsuccessful operation due to user privileges."
+          schema:
+              $ref: "#/definitions/Error40XResponse"
+        "500":
+          description: "Unsuccessful operation due to internal server error."
+          schema:
+              $ref: "#/definitions/Error500Response"
+      security:
+      - petstore_auth:
+        - "write:pets"
+        - "read:pets"
+    put:
+      tags:
+      - "item"
+      summary: "Update a Delilah Restó item"
+      description: "At least, an item parameter must be included in the request."
+      operationId: "updateItem"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "Authorization"
+        in: "header"
+        description: "JWT"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "body"
+        description: "Item object that needs to be updated"
+        required: true
+        schema:
+          $ref: "#/definitions/UpdateItemRequest"
+      responses:
+        "200":
+          description: "Successful operation."
+          schema:
+              $ref: "#/definitions/UDItemResponse"
+        "400":
+          description: "Unsuccessful operation."
+          schema:
+              $ref: "#/definitions/Error40XResponse"
+        "401":
+          description: "Unsuccessful operation due to invalid JWT."
+          schema:
+              $ref: "#/definitions/Error401Response"
+        "403":
+          description: "Unsuccessful operation due to user privileges."
+          schema:
+              $ref: "#/definitions/Error40XResponse"
+        "500":
+          description: "Unsuccessful operation due to internal server error."
+          schema:
+              $ref: "#/definitions/Error500Response"
+      security:
+      - petstore_auth:
+        - "write:pets"
+        - "read:pets"
+    delete:
+      tags:
+      - "item"
+      summary: "Delete an existing item from Delilah Restó menu"
+      description: ""
+      operationId: "deleteItem"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "header"
+        name: "Authorization"
+        description: "JWT that includes admin username."
+        required: true
+        type: "string"
+      - name: "itemId"
+        in: "query"
+        description: "ID of item to delete"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        "200":
+          description: "Successful operation."
+          schema:
+              $ref: "#/definitions/UDItemResponse"
+        "400":
+          description: "Unsuccessful operation."
+          schema:
+              $ref: "#/definitions/Error40XResponse"
+        "401":
+          description: "Unsuccessful operation due to invalid JWT."
+          schema:
+              $ref: "#/definitions/Error401Response"
+        "403":
+          description: "Unsuccessful operation due to user privileges."
+          schema:
+              $ref: "#/definitions/Error40XResponse"
+        "500":
+          description: "Unsuccessful operation due to internal server error."
+          schema:
+              $ref: "#/definitions/Error500Response"
+      security:
+      - petstore_auth:
+        - "write:pets"
+        - "read:pets"
+  /favorites:
+    post:
+      tags:
+      - "favorites"
+      summary: "Set a Delilah Restó item as favorite for a user"
+      description: ""
+      operationId: "setFavorite"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "header"
+        name: "Authorization"
+        description: "JWT that includes username."
+        required: true
+        type: "string"
+      - name: "itemId"
+        in: "query"
+        description: "ID of item to set as favorite"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        "200":
+          description: "Successful operation."
+          schema:
+              $ref: "#/definitions/CDFavoriteResponse"
+        "400":
+          description: "Unsuccessful operation."
+          schema:
+              $ref: "#/definitions/Error40XResponse"
+        "401":
+          description: "Unsuccessful operation due to invalid JWT."
+          schema:
+              $ref: "#/definitions/Error401Response"
+        "403":
+          description: "Unsuccessful operation due to user privileges."
+          schema:
+              $ref: "#/definitions/Error40XResponse"
+        "500":
+          description: "Unsuccessful operation due to internal server error."
+          schema:
+              $ref: "#/definitions/Error500Response"
+      security:
+      - petstore_auth:
+        - "write:pets"
+        - "read:pets"
+    get:
+      tags:
+      - "favorites"
+      summary: "Query Delilah Restó favorites for a user"
+      description: ""
+      operationId: "queryFavorites"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "header"
+        name: "Authorization"
+        description: "JWT that includes username."
+        required: true
+        type: "string"
+      responses:
+        "200":
+          description: "Successful operation."
+          schema:
+              $ref: "#/definitions/QueryFavoritesResponse"
+        "400":
+          description: "Unsuccessful operation."
+          schema:
+              $ref: "#/definitions/Error40XResponse"
+        "401":
+          description: "Unsuccessful operation due to invalid JWT."
+          schema:
+              $ref: "#/definitions/Error401Response"
+        "403":
+          description: "Unsuccessful operation due to user privileges."
+          schema:
+              $ref: "#/definitions/Error40XResponse"
+        "500":
+          description: "Unsuccessful operation due to internal server error."
+          schema:
+              $ref: "#/definitions/Error500Response"
+      security:
+      - petstore_auth:
+        - "write:pets"
+        - "read:pets"
+    delete:
+      tags:
+      - "favorites"
+      summary: "Unset a Delilah Restó item as favorite for a user"
+      description: ""
+      operationId: "unsetFavorite"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "header"
+        name: "Authorization"
+        description: "JWT that includes username."
+        required: true
+        type: "string"
+      - name: "itemId"
+        in: "query"
+        description: "ID of item to unset as favorite"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        "200":
+          description: "Successful operation."
+          schema:
+              $ref: "#/definitions/CDFavoriteResponse"
+        "400":
+          description: "Unsuccessful operation."
+          schema:
+              $ref: "#/definitions/Error40XResponse"
+        "401":
+          description: "Unsuccessful operation due to invalid JWT."
+          schema:
+              $ref: "#/definitions/Error401Response"
+        "403":
+          description: "Unsuccessful operation due to user privileges."
+          schema:
+              $ref: "#/definitions/Error40XResponse"
+        "500":
+          description: "Unsuccessful operation due to internal server error."
+          schema:
+              $ref: "#/definitions/Error500Response"
+      security:
+      - petstore_auth:
+        - "write:pets"
+        - "read:pets"
+  /order:
+    post:
+      tags:
+      - "order"
+      summary: "Create a Delilah Restó order"
+      description: ""
+      operationId: "createOrder"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "header"
+        name: "Authorization"
+        description: "JWT that includes username."
+        required: true
+        type: "string"
+      - in: "body"
+        name: "body"
+        description: "Item object that needs to be added to the resto."
+        required: true
+        schema:
+          $ref: "#/definitions/CreateOrderRequest"
+      responses:
+        "200":
+          description: "Successful operation."
+          schema:
+              $ref: "#/definitions/CreateOrderResponse"
+        "400":
+          description: "Unsuccessful operation."
+          schema:
+              $ref: "#/definitions/Error40XResponse"
+        "401":
+          description: "Unsuccessful operation due to invalid JWT."
+          schema:
+              $ref: "#/definitions/Error401Response"
+        "403":
+          description: "Unsuccessful operation due to user privileges."
+          schema:
+              $ref: "#/definitions/Error40XResponse"
+        "500":
+          description: "Unsuccessful operation due to internal server error."
+          schema:
+              $ref: "#/definitions/Error500Response"
+      security:
+      - petstore_auth:
+        - "write:pets"
+        - "read:pets"
+    get:
+      tags:
+      - "order"
+      summary: "query Delilah Restó user orders"
+      description: ""
+      operationId: "queryUserOrders"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "header"
+        name: "Authorization"
+        description: "JWT that includes username."
+        required: true
+        type: "string"
+      - name: "orderId"
+        in: "query"
+        description: "ID of order to return"
+        required: false
+        type: "integer"
+        format: "int64"
+      responses:
+        "200":
+          description: "Successful operation."
+          schema:
+              $ref: "#/definitions/QueryUserOrdersResponse"
+        "400":
+          description: "Unsuccessful operation."
+          schema:
+              $ref: "#/definitions/Error40XResponse"
+        "401":
+          description: "Unsuccessful operation due to invalid JWT."
+          schema:
+              $ref: "#/definitions/Error401Response"
+        "403":
+          description: "Unsuccessful operation due to user privileges."
+          schema:
+              $ref: "#/definitions/Error40XResponse"
+        "500":
+          description: "Unsuccessful operation due to internal server error."
+          schema:
+              $ref: "#/definitions/Error500Response"
+      security:
+      - petstore_auth:
+        - "write:pets"
+        - "read:pets"
+  /dashboard:
+    get:
+      tags:
+      - "admin"
+      summary: "Admin query Delilah Restó orders"
+      description: ""
+      operationId: "adminQueryOrders"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "header"
+        name: "Authorization"
+        description: "JWT that includes admin username."
+        required: true
+        type: "string"
+      responses:
+        "200":
+          description: "Successful operation."
+          schema:
+              $ref: "#/definitions/AdminQueryOrdersResponse"
+        "400":
+          description: "Unsuccessful operation."
+          schema:
+              $ref: "#/definitions/Error40XResponse"
+        "401":
+          description: "Unsuccessful operation due to invalid JWT."
+          schema:
+              $ref: "#/definitions/Error401Response"
+        "403":
+          description: "Unsuccessful operation due to user privileges."
+          schema:
+              $ref: "#/definitions/Error40XResponse"
+        "500":
+          description: "Unsuccessful operation due to internal server error."
+          schema:
+              $ref: "#/definitions/Error500Response"
+      security:
+      - petstore_auth:
+        - "write:pets"
+        - "read:pets"
+    post:
+      tags:
+      - "admin"
+      summary: "Change Delilah Restó order state"
+      description: ""
+      operationId: "changeOrderState"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "header"
+        name: "Authorization"
+        description: "JWT that includes admin username."
+        required: true
+        type: "string"
+      - name: "orderId"
+        in: "query"
+        description: "ID of order to change its state"
+        required: true
+        type: "integer"
+        format: "int64"
+      - name: "newOrderState"
+        in: "query"
+        description: "New state of order"
+        required: true
+        type: "string"
+      responses:
+        "200":
+          description: "Successful operation."
+          schema:
+              $ref: "#/definitions/ChangeOrderStateResponse"
+        "400":
+          description: "Unsuccessful operation."
+          schema:
+              $ref: "#/definitions/Error40XResponse"
+        "401":
+          description: "Unsuccessful operation due to invalid JWT."
+          schema:
+              $ref: "#/definitions/Error401Response"
+        "403":
+          description: "Unsuccessful operation due to user privileges."
+          schema:
+              $ref: "#/definitions/Error40XResponse"
+        "500":
+          description: "Unsuccessful operation due to internal server error."
+          schema:
+              $ref: "#/definitions/Error500Response"
+      security:
+      - petstore_auth:
+        - "write:pets"
+        - "read:pets"
+  /store/order:
+    post:
+      tags:
+      - "store"
+      summary: "Place an order for a pet"
+      description: ""
+      operationId: "placeOrder"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "order placed for purchasing the pet"
+        required: true
+        schema:
+          $ref: "#/definitions/Order"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Order"
+        "400":
+          description: "Invalid Order"
+  /store/order/{orderId}:
+    get:
+      tags:
+      - "store"
+      summary: "Find purchase order by ID"
+      description: "For valid response try integer IDs with value >= 1 and <= 10.         Other values will generated exceptions"
+      operationId: "getOrderById"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - name: "orderId"
+        in: "path"
+        description: "ID of pet that needs to be fetched"
+        required: true
+        type: "integer"
+        maximum: 10.0
+        minimum: 1.0
+        format: "int64"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Order"
+        "400":
+          description: "Invalid ID supplied"
+        "404":
+          description: "Order not found"
+    delete:
+      tags:
+      - "store"
+      summary: "Delete purchase order by ID"
+      description: "For valid response try integer IDs with positive integer value.         Negative or non-integer values will generate API errors"
+      operationId: "deleteOrder"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - name: "orderId"
+        in: "path"
+        description: "ID of the order that needs to be deleted"
+        required: true
+        type: "integer"
+        minimum: 1.0
+        format: "int64"
+      responses:
+        "400":
+          description: "Invalid ID supplied"
+        "404":
+          description: "Order not found"
+
+securityDefinitions:
+  petstore_auth:
+    type: "oauth2"
+    authorizationUrl: "http://petstore.swagger.io/oauth/dialog"
+    flow: "implicit"
+    scopes:
+      write:pets: "modify pets in your account"
+      read:pets: "read your pets"
+  api_key:
+    type: "apiKey"
+    name: "api_key"
+    in: "header"
+definitions:
+  SignUpRequest:
+    type: "object"
+    required:
+    - "newUserData"
+    properties:
+      newUserData:
+        type: "object"
+        required:
+        - "username"
+        - "fullname"
+        - "email"
+        - "phone"
+        - "address"
+        - "password"
+        - "role"
+        properties:
+          username:
+            type: "string"
+            example: "RICHARDV"
+          fullname:
+            type: "string"
+            example: "Richard Villamizar"
+          email:
+            type: "string"
+            example: "example@example.com"
+          phone:
+            type: "integer"
+            example: "541199999999"
+          address:
+            type: "string"
+            example: "Montevideo 154,CABA"
+          password:
+            type: "string"
+            example: "Richard@9999"
+          role:
+            type: "string"
+            enum:
+            - "customer"
+            - "admin"
+            example: "admin"
+        xml:
+          name: "newUserData"    
+    xml:
+      name: "SignUpRequest"
+  SignUpResponse:
+    type: "object"
+    required:
+    - "userId"
+    - "message"
+    properties:
+      userId:
+        type: "integer"
+      message:
+        type: "string"
+    xml:
+      name: "SignUpResponse"
+  Error40XResponse:
+    type: "object"
+    required:
+    - "errorCode"
+    - "type"
+    - "erroMessage"
+    properties:
+      errorCode:
+        type: "integer"
+      type:
+        type: "string"
+      erroMessage:
+        type: "string"
+    xml:
+      name: "Error40XResponse"
+  Error500Response:
+    type: "object"
+    required:
+    - "errorCode"
+    - "type"
+    - "erroMessage"
+    properties:
+      errorCode:
+        type: "integer"
+        example: "9999"
+      type:
+        type: "string"
+        example: "internal"
+      erroMessage:
+        type: "string"
+        example: "Transaction can not be completed due to internal error"
+    xml:
+      name: "Error500Response"
+  LoginRequest:
+    type: "object"
+    required:
+    - "username"
+    - "password"
+    properties:
+      username:
+        type: "string"
+        example: "RICHARDV"
+      password:
+        type: "string"
+        example: "Richard@9999"
+    xml:
+      name: "LoginRequest"
+  LoginResponse:
+    type: "object"
+    required:
+    - "message"
+    - "token"
+    properties:
+      message:
+        type: "string"
+      token:
+        type: "string"
+    xml:
+      name: "LoginResponse"
+  UserData:
+    type: "object"
+    required:
+    - "userId"
+    - "username"
+    - "fullanme"
+    - "email"
+    - "phone"
+    - "address"
+    - "role"
+    - "createdAt"
+    - "updatedAt"
+    properties:
+      userId: 
+        type: "integer"
+      username:
+        type: "string"
+      fullname:
+        type: "string"
+      email:
+        type: "string"
+      phone:
+        type: "integer"
+      address:
+        type: "string"
+      role:
+        type: "string"
+        enum:
+        - "customer"
+        - "admin"
+        example: "admin"
+      createdAt:
+        type: "string"
+      updatedAt:
+        type: "string"
+    xml:
+      name: "ProfileResponse"
+  ProfileResponse:
+    type: "object"
+    required:
+    - "userData"
+    - "message"
+    properties:
+      userData:
+        type: "array"
+        items:
+          $ref: "#/definitions/UserData" 
+      message:
+        type: "string"
+    xml:
+      name: "ProfileResponse"
+  AddItemRequest:
+    type: "object"
+    required:
+    - "newItemData"
+    properties:
+      newItemData:
+        type: "object"
+        required:
+        - "name"
+        - "shortDesc"
+        - "photoUrl"
+        - "price"
+        properties:
+          name:
+            type: "string"
+            example: "Mexican Burger"
+          shortDesc:
+            type: "string"
+            example: "Mx Burg"
+          photoUrl:
+            type: "string"
+            example: "www.delilahresto.com/pics/mex_burger.jpg"
+          price:
+            type: "number"
+            format: "float"
+            example: "750.50"
+    xml:
+      name: "AddItemRequest"
+  CItemResponse:
+    type: "object"
+    required:
+    - "itemId"
+    - "message"
+    properties:
+      itemId:
+        type: "integer"
+      message:
+        type: "string"
+    xml:
+      name: "CItemResponse"
+  UDItemResponse:
+    type: "object"
+    required:
+    - "itemId"
+    - "message"
+    properties:
+      itemId:
+        type: "integer"
+      message:
+        type: "string"
+    xml:
+      name: "UDItemResponse"
+  Error401Response:
+    type: "string"
+    example: "Invalid token."
+    xml:
+      name: "Error401Response"
+  QueryItemsResponse:
+    type: "object"
+    properties:
+      itemList:
+        type: "array"
+        items:
+          $ref: "#/definitions/Item"
+      message:
+        type: "string"
+        example: "Item(s) queried successfully."
+    xml:
+      name: "QueryItemsResponse"
+  Item:
+    type: "object"
+    properties:
+      itemId:
+        type: "integer"
+        format: "int64"
+      name:
+        type: "string"
+        example: "burger"
+      shortDesc:
+        type: "string"
+        example: "burg"
+      photoUrl:
+        type: "string"
+        example: "https://www.delilahresto.com/images/burger.jpg"
+      price:
+        type: "number"
+        format: "float"
+      createdBy:
+        type: "string"
+        example: "username"
+      createdAt:
+        type: "string"
+        example: "2020-12-19T20:31:30.000Z"
+      updatedBy:
+        type: "string"
+        example: "username"
+      updatedAt:
+        type: "string"
+        example: "2020-12-19T20:31:30.000Z"
+    xml:
+      name: "QueryItemsResponse"
+  UpdateItemRequest:
+    type: "object"
+    required:
+    - "itemId"
+    - "newItemData"
+    properties:
+      itemId:
+        type: "integer"
+      newItemData:
+        type: "object"
+        properties:
+          name:
+            type: "string"
+          shortDesc:
+            type: "string"
+          photoUrl:
+            type: "string"
+          price:
+            type: "number"
+            format: "float"
+    xml:
+      name: "UpdateItemRequest"  
+  CDFavoriteResponse:
+    type: "object"
+    required:
+    - "message"
+    properties:
+      message:
+        type: "string"
+    xml:
+      name: "CUDItemResponse"
+  QueryFavoritesResponse:
+    type: "object"
+    required:
+    - "message"
+    properties:
+      favoritesData:
+        type: "array"
+        items:
+          $ref: "#/definitions/Favorite"
+    xml:
+      name: "CUDItemResponse"
+  Favorite:
+    type: "object"
+    required:
+    - "itemId"
+    - "createdAt"
+    properties:
+      itemId:
+        type: "integer"
+      createdAt:
+        type: "string"
+    xml:
+      name: "Favorite"
+  OrderItemRequest:
+    type: "object"
+    properties:
+      itemId:
+        type: "integer"
+        format: "int64"
+      quantity:
+        type: "integer"
+        format: "int64"
+    xml:
+      name: "OrderItemRequest"
+  CreateOrderRequest:
+    type: "object"
+    required:
+    - "orderItemList"
+    - "paymentMethod"
+    - "total"
+    properties:
+      orderItemList:
+        type: "array"
+        items:
+          $ref: "#/definitions/OrderItemRequest" 
+      paymentMethod: 
+        type: "string"
+      total:
+        type: "number"
+        format: "float"
+    xml:
+      name: "CreateOrderRequest"
+  CreateOrderResponse:
+    type: "object"
+    required:
+    - "orderId"
+    - "message"
+    properties:
+      orderId:
+        type: "string"
+      message: 
+        type: "string"
+    xml:
+      name: "CreateOrderResponse"
+  OrderItemResponse:
+    type: "object"
+    properties:
+      itemId:
+        type: "integer"
+      name:
+        type: "string"
+      unitPrice:
+        type: "number"
+        format: "float"
+      quantity:
+        type: "integer"
+        format: "int64"
+    xml:
+      name: "OrderItemResponse"
+  Order:
+    type: "object"
+    required:
+    - "orderId"
+    - "state"
+    - "itemsData"
+    - "total"
+    - "paymentMethod"
+    - "phone"
+    - "address"
+    - "createdAt"
+    - "lastStateChangeAt"
+    - "message"
+    properties:
+      orderId:
+        type: "integer"
+      state:
+        type: "string"
+      itemsData:
+        type: "array"
+        items:
+          $ref: "#/definitions/OrderItemResponse" 
+      total:
+        type: "number"
+      paymentMethod:
+        type: "string"
+      phone:
+        type: "string"
+      address: 
+        type: "string"
+      createdAt:
+        type: "string"
+      lastStateChangeAt:
+        type: string
+    xml:
+      name: "OrderItemResponse"
+  QueryUserOrdersResponse:
+    type: "object"
+    required:
+    - "orderList"
+    - "message"
+    properties:
+      orderList:
+        type: "array"
+        items:
+          $ref: "#/definitions/Order"
+      message:
+        type: "string"
+    xml:
+      name: "QueryUserOrdersResponse"
+  AdminOrder:
+    type: "object"
+    required:
+    - "orderId"
+    - "state"
+    - "itemsData"
+    - "total"
+    - "paymentMethod"
+    - "createdBy"
+    - "fullname"
+    - "email"
+    - "phone"
+    - "address"
+    - "createdAt"
+    - "lastStateChangeBy"
+    - "lastStateChangeAt"
+    - "message"
+    properties:
+      orderId:
+        type: "integer"
+      state:
+        type: "string"
+      itemsData:
+        type: "array"
+        items:
+          $ref: "#/definitions/OrderItemResponse" 
+      total:
+        type: "number"
+      paymentMethod:
+        type: "string"
+      createdABy:
+        type: "string"
+      fullname: 
+        type: "string"
+      email:
+        type: "string"
+      phone:
+        type: "string"
+      address: 
+        type: "string"
+      createdAt:
+        type: "string"
+      lastStateChangeBy:
+        type: "string"
+      lastStateChangeAt:
+        type: string
+    xml:
+      name: "OrderItemResponse"
+  AdminQueryOrdersResponse:
+    type: "object"
+    required:
+    - "orderList"
+    - "message"
+    properties:
+      orderList:
+        type: "array"
+        items:
+          $ref: "#/definitions/AdminOrder"
+      message:
+        type: "string"
+    xml:
+      name: "QueryUserOrdersResponse"
+  ChangeOrderStateResponse:
+    type: "object"
+    required:
+    - "message"
+    properties:
+      message:
+        type: "string"
+    xml:
+      name: "ChangeOrderStateResponse"
+  ApiResponse:
+    type: "object"
+    properties:
+      code:
+        type: "integer"
+        format: "int32"
+      type:
+        type: "string"
+      message:
+        type: "string"
+externalDocs:
+  description: "Find out more about Swagger"
+  url: "http://swagger.io"
