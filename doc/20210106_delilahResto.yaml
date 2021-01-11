@@ -22,8 +22,6 @@ tags:
   description: "Everything about Delilah Restó orders"
 - name: "admin"
   description: "Everything about Delilah Restó order management"
-- name: "store"
-  description: "Access to Petstore orders"
 
 schemes:
 - "http"
@@ -599,7 +597,7 @@ paths:
       - petstore_auth:
         - "write:pets"
         - "read:pets"
-    post:
+    put:
       tags:
       - "admin"
       summary: "Change Delilah Restó order state"
@@ -651,81 +649,53 @@ paths:
       - petstore_auth:
         - "write:pets"
         - "read:pets"
-  /store/order:
-    post:
-      tags:
-      - "store"
-      summary: "Place an order for a pet"
-      description: ""
-      operationId: "placeOrder"
-      produces:
-      - "application/xml"
-      - "application/json"
-      parameters:
-      - in: "body"
-        name: "body"
-        description: "order placed for purchasing the pet"
-        required: true
-        schema:
-          $ref: "#/definitions/Order"
-      responses:
-        "200":
-          description: "successful operation"
-          schema:
-            $ref: "#/definitions/Order"
-        "400":
-          description: "Invalid Order"
-  /store/order/{orderId}:
-    get:
-      tags:
-      - "store"
-      summary: "Find purchase order by ID"
-      description: "For valid response try integer IDs with value >= 1 and <= 10.         Other values will generated exceptions"
-      operationId: "getOrderById"
-      produces:
-      - "application/xml"
-      - "application/json"
-      parameters:
-      - name: "orderId"
-        in: "path"
-        description: "ID of pet that needs to be fetched"
-        required: true
-        type: "integer"
-        maximum: 10.0
-        minimum: 1.0
-        format: "int64"
-      responses:
-        "200":
-          description: "successful operation"
-          schema:
-            $ref: "#/definitions/Order"
-        "400":
-          description: "Invalid ID supplied"
-        "404":
-          description: "Order not found"
     delete:
       tags:
-      - "store"
-      summary: "Delete purchase order by ID"
-      description: "For valid response try integer IDs with positive integer value.         Negative or non-integer values will generate API errors"
+      - "admin"
+      summary: "Delete an existing order from Delilah Restó"
+      description: ""
       operationId: "deleteOrder"
+      consumes:
+      - "application/json"
       produces:
-      - "application/xml"
       - "application/json"
       parameters:
+      - in: "header"
+        name: "Authorization"
+        description: "JWT that includes admin username."
+        required: true
+        type: "string"
       - name: "orderId"
-        in: "path"
-        description: "ID of the order that needs to be deleted"
+        in: "query"
+        description: "ID of order to delete"
         required: true
         type: "integer"
-        minimum: 1.0
         format: "int64"
       responses:
+        "200":
+          description: "Successful operation."
+          schema:
+              $ref: "#/definitions/DeleteOrderResponse"
         "400":
-          description: "Invalid ID supplied"
-        "404":
-          description: "Order not found"
-
+          description: "Unsuccessful operation."
+          schema:
+              $ref: "#/definitions/Error40XResponse"
+        "401":
+          description: "Unsuccessful operation due to invalid JWT."
+          schema:
+              $ref: "#/definitions/Error401Response"
+        "403":
+          description: "Unsuccessful operation due to user privileges."
+          schema:
+              $ref: "#/definitions/Error40XResponse"
+        "500":
+          description: "Unsuccessful operation due to internal server error."
+          schema:
+              $ref: "#/definitions/Error500Response"
+      security:
+      - petstore_auth:
+        - "write:pets"
+        - "read:pets"
 securityDefinitions:
   petstore_auth:
     type: "oauth2"
@@ -948,11 +918,8 @@ definitions:
   UDItemResponse:
     type: "object"
     required:
-    - "itemId"
     - "message"
     properties:
-      itemId:
-        type: "integer"
       message:
         type: "string"
     xml:
@@ -1036,7 +1003,7 @@ definitions:
       message:
         type: "string"
     xml:
-      name: "CUDItemResponse"
+      name: "CDFavoriteResponse"
   QueryFavoritesResponse:
     type: "object"
     required:
@@ -1066,9 +1033,11 @@ definitions:
       itemId:
         type: "integer"
         format: "int64"
+        example: 1
       quantity:
         type: "integer"
         format: "int64"
+        example: 2
     xml:
       name: "OrderItemRequest"
   CreateOrderRequest:
@@ -1084,9 +1053,14 @@ definitions:
           $ref: "#/definitions/OrderItemRequest" 
       paymentMethod: 
         type: "string"
+        enum:
+          - "cash"
+          - "card"
+        example: "cash"
       total:
         type: "number"
         format: "float"
+        example: 1000
     xml:
       name: "CreateOrderRequest"
   CreateOrderResponse:
@@ -1096,7 +1070,7 @@ definitions:
     - "message"
     properties:
       orderId:
-        type: "string"
+        type: "integer"
       message: 
         type: "string"
     xml:
@@ -1134,16 +1108,28 @@ definitions:
         type: "integer"
       state:
         type: "string"
+        enum:
+          - "new"
+          - "confirmed"
+          - "preparing"
+          - "on_the_way"
+          - "cancelled"
+          - "delivered"
+          - "deleted"
       itemsData:
         type: "array"
         items:
           $ref: "#/definitions/OrderItemResponse" 
       total:
         type: "number"
+        format: float
       paymentMethod:
         type: "string"
+        enum:
+          - "cash"
+          - "card"
       phone:
-        type: "string"
+        type: "integer"
       address: 
         type: "string"
       createdAt:
@@ -1196,6 +1182,9 @@ definitions:
         type: "number"
       paymentMethod:
         type: "string"
+        enum:
+          - "cash"
+          - "card"
       createdABy:
         type: "string"
       fullname: 
@@ -1203,7 +1192,7 @@ definitions:
       email:
         type: "string"
       phone:
-        type: "string"
+        type: "integer"
       address: 
         type: "string"
       createdAt:
@@ -1237,16 +1226,16 @@ definitions:
         type: "string"
     xml:
       name: "ChangeOrderStateResponse"
-  ApiResponse:
+  DeleteOrderResponse:
     type: "object"
+    required:
+    - "message"
     properties:
-      code:
-        type: "integer"
-        format: "int32"
-      type:
-        type: "string"
       message:
         type: "string"
+    xml:
+      name: "DeleteOrderResponse"
+
 externalDocs:
   description: "Find out more about Swagger"
   url: "http://swagger.io"

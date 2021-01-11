@@ -1,0 +1,641 @@
+{
+	"info": {
+		"_postman_id": "7c8456dd-45e3-41c3-99f9-d9524a5b802f",
+		"name": "Delilah Final",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "signup",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"newUserData\": { \r\n    \"fullname\": \"Ricardo Calomino\",\r\n    \"email\": \"albertofeliz@69hotmail.com\",\r\n    \"phone\": \"541167945117\",\r\n    \"address\": \"san luis\",\r\n    \"password\": \"Rianvica999#\",\r\n    \"role\": \"admin\"\r\n  }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:4000/signup",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"signup"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"RDJ472007\",\r\n    \"password\": \"clave\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:4000/login",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "profile",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"richard\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:4000/user",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "createItem",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiJ9.UkRKNDcyMDA3.1gv1Y8t-TonAHtX7dRyfatNr6oIm2aIuabYpfIhfJmE",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"burger\",\r\n  \"shortDesc\": \"burg\",\r\n  \"photoUrl\": \"www.delilahresto.com/images/burger.jpg\",  \r\n  \"price\": \"1000.50\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:4000/item",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"item"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "queryItems",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiJ9.UkRKNDcyMDEw.JB-5DOBAMTad1Yff-xNVG8DM6TZdSY6diQc2m9dDF-s",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"itemId\": \"2\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:4000/item",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"item"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": "burger",
+							"disabled": true
+						},
+						{
+							"key": "shortDesc",
+							"value": "burg",
+							"disabled": true
+						},
+						{
+							"key": "photoUrl",
+							"value": "www.delilahresto.com/images/burger.jpg",
+							"disabled": true
+						},
+						{
+							"key": "price",
+							"value": "1000.50",
+							"disabled": true
+						},
+						{
+							"key": "status",
+							"value": "available",
+							"disabled": true
+						},
+						{
+							"key": "addedBy",
+							"value": "RDJ472007",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "queryItems",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiJ9.UkRKNDcyMDEw.JB-5DOBAMTad1Yff-xNVG8DM6TZdSY6diQc2m9dDF-s",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"itemId\": \"2\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:4000/item",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"item"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": "burger",
+							"disabled": true
+						},
+						{
+							"key": "shortDesc",
+							"value": "burg",
+							"disabled": true
+						},
+						{
+							"key": "photoUrl",
+							"value": "www.delilahresto.com/images/burger.jpg",
+							"disabled": true
+						},
+						{
+							"key": "price",
+							"value": "1000.50",
+							"disabled": true
+						},
+						{
+							"key": "status",
+							"value": "available",
+							"disabled": true
+						},
+						{
+							"key": "addedBy",
+							"value": "RDJ472007",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "updateItem",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiJ9.UkRKNDcyMDA3.1gv1Y8t-TonAHtX7dRyfatNr6oIm2aIuabYpfIhfJmE",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{ \r\n    \"itemId\": \"19\",\r\n    \"newItemData\": {\r\n        \"name\": \"SANDWICHTA\",\r\n        \"shortDesc\": \"burg\",\r\n        \"photoUrl\": \"www.delilahresto.com/images/burger.jpg\",  \r\n        \"price\": \"1000.50\"\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:4000/item",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"item"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "deleteItem",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiJ9.UkRKNDcyMDA3.1gv1Y8t-TonAHtX7dRyfatNr6oIm2aIuabYpfIhfJmE",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:4000/item?itemId=16",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"item"
+					],
+					"query": [
+						{
+							"key": "itemId",
+							"value": "16"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "setFavorite",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiJ9.UkRKNDcyMDA3.1gv1Y8t-TonAHtX7dRyfatNr6oIm2aIuabYpfIhfJmE",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:4000/favorites?itemId=7",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"favorites"
+					],
+					"query": [
+						{
+							"key": "itemId",
+							"value": "7"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "queryfavorites",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": ""
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "unsetFavorite",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiJ9.UkRKNDcyMDA3.1gv1Y8t-TonAHtX7dRyfatNr6oIm2aIuabYpfIhfJmE",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:4000/favorites?itemId=8",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"favorites"
+					],
+					"query": [
+						{
+							"key": "itemId",
+							"value": "8"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "createOrder",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiJ9.UkRKNDcyMDA4.lv1AjG2N4qj3toXIqvx749BLvYh7xswrUNmJ8iPMNZk",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"orderItemList\": [\r\n        {\r\n            \"itemId\": 9,\r\n            \"quantity\": 0\r\n        },\r\n        {\r\n            \"itemId\": 10,\r\n            \"quantity\": 2\r\n        },\r\n        {\r\n            \"itemId\": 11,\r\n            \"quantity\": 3\r\n        }\r\n    ],\r\n    \"paymentMethod\": \"cash\",\r\n    \"total\": \"1000\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:4000/order",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"order"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "queryUserOrders",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "Bearer eyJhbGciOiJIUzI1NiJ9.UkRKNDcyMDA4.lv1AjG2N4qj3toXIqvx749BLvYh7xswrUNmJ8iPMNZk"
+					}
+				],
+				"url": {
+					"raw": "localhost:4000/order?orderId=1",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"order"
+					],
+					"query": [
+						{
+							"key": "orderId",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "adminQueryOrders",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "Bearer eyJhbGciOiJIUzI1NiJ9.UkRKNDcyMDA3.1gv1Y8t-TonAHtX7dRyfatNr6oIm2aIuabYpfIhfJmE"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:4000/order",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"order"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "adminQueryOrderDetails (Deprecated)",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "Bearer eyJhbGciOiJIUzI1NiJ9.UkRKNDcyMDA3.1gv1Y8t-TonAHtX7dRyfatNr6oIm2aIuabYpfIhfJmE"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:4000/order",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"order"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "changeOrderState",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "Bearer eyJhbGciOiJIUzI1NiJ9.UkRKNDcyMDA3.1gv1Y8t-TonAHtX7dRyfatNr6oIm2aIuabYpfIhfJmE"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:4000/changeOrderState?orderId=7&newOrderState=preparing",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"changeOrderState"
+					],
+					"query": [
+						{
+							"key": "orderId",
+							"value": "7"
+						},
+						{
+							"key": "newOrderState",
+							"value": "preparing"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "adminDeleteOrder",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "Bearer eyJhbGciOiJIUzI1NiJ9.UkRKNDcyMDA3.1gv1Y8t-TonAHtX7dRyfatNr6oIm2aIuabYpfIhfJmE"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:4000/dashboard",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"dashboard"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": null,
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
